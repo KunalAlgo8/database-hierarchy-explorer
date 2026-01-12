@@ -135,6 +135,18 @@
             border-color: #000000;
         }
 
+        .btn-success {
+            background: linear-gradient(135deg, #00E5C3 0%, #059669 100%);
+            color: white;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 229, 195, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(0, 229, 195, 0.5);
+        }
+
         .search-box {
             flex: 1;
             min-width: 300px;
@@ -564,9 +576,9 @@
             border-radius: 16px;
             border: 1px solid #252A3A;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow: hidden;
             animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -622,7 +634,7 @@
 
         .modal-body {
             padding: 24px 32px;
-            max-height: calc(80vh - 100px);
+            max-height: calc(85vh - 100px);
             overflow-y: auto;
         }
 
@@ -729,6 +741,7 @@
         #tab-fields table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 16px;
         }
 
         #tab-fields th,
@@ -811,6 +824,58 @@
         .tab-btn:hover {
             background: #252A3A;
             color: #E6EAF2;
+        }
+
+        .add-field-btn-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 16px;
+        }
+
+        .btn-add-field {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #00E5C3 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+
+        .btn-add-field:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 229, 195, 0.4);
+        }
+
+        .field-row-actions {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .btn-delete-row {
+            width: 24px;
+            height: 24px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-delete-row:hover {
+            background: #b91c1c;
+            transform: scale(1.1);
         }
 
         @media (max-width: 768px) {
@@ -998,22 +1063,31 @@
 
                 <!-- FIELDS TAB -->
                 <div id="tab-fields" class="meta-tab">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Field</th>
-                                <th>Type</th>
-                                <th>Meaning</th>
-                                <th>Nullable</th>
-                                <th>PK</th>
-                                <th>PII</th>
-                                <th>Values</th>
-                                <th>Example</th>
-                            </tr>
-                        </thead>
-                        <tbody id="fieldMetaBody">
-                        </tbody>
-                    </table>
+                    <div class="add-field-btn-container">
+                        <button class="btn-add-field" onclick="addEmptyFieldRow()">
+                            <span>➕</span>
+                            <span>Add New Field</span>
+                        </button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Field</th>
+                                    <th>Type</th>
+                                    <th>Meaning</th>
+                                    <th>Nullable</th>
+                                    <th>PK</th>
+                                    <th>PII</th>
+                                    <th>Values</th>
+                                    <th>Example</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fieldMetaBody">
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <button class="btn btn-primary" onclick="saveMetadata()" style="margin-top: 20px;">💾 Save Metadata</button>
@@ -1894,8 +1968,18 @@
                 <td><select><option>No</option><option ${f.pii==="Yes"?"selected":""}>Yes</option></select></td>
                 <td><input value="${f.values || ""}"></td>
                 <td><input value="${f.example || ""}"></td>
+                <td class="field-row-actions">
+                    <button class="btn-delete-row" onclick="deleteFieldRow(this)" title="Delete row">🗑️</button>
+                </td>
             `;
             body.appendChild(tr);
+        }
+
+        function deleteFieldRow(button) {
+            const row = button.closest('tr');
+            if (row) {
+                row.remove();
+            }
         }
 
         function closeMeta() {
@@ -1940,16 +2024,18 @@
             const fields = [];
             document.querySelectorAll("#fieldMetaBody tr").forEach(tr => {
                 const tds = tr.querySelectorAll("input,select");
-                fields.push({
-                    field: tds[0].value,
-                    datatype: tds[1].value,
-                    meaning: tds[2].value,
-                    nullable: tds[3].value,
-                    pk: tds[4].value,
-                    pii: tds[5].value,
-                    values: tds[6].value,
-                    example: tds[7].value
-                });
+                if (tds.length >= 8) {
+                    fields.push({
+                        field: tds[0].value,
+                        datatype: tds[1].value,
+                        meaning: tds[2].value,
+                        nullable: tds[3].value,
+                        pk: tds[4].value,
+                        pii: tds[5].value,
+                        values: tds[6].value,
+                        example: tds[7].value
+                    });
+                }
             });
 
             metadataLog[key] = {
