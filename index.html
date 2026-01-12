@@ -762,6 +762,35 @@
                 padding: 20px;
             }
         }
+        /* ===== Field Metadata Table Fix ===== */
+#tab-fields table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#tab-fields th,
+#tab-fields td {
+  border: 1px solid #252A3A;
+  padding: 6px;
+  font-size: 12px;
+  color: #E6EAF2;
+}
+
+#tab-fields th {
+  background: #161A23;
+  font-weight: 600;
+}
+
+#tab-fields input,
+#tab-fields select {
+  width: 100%;
+  background: #0F1117;
+  color: #E6EAF2;
+  border: 1px solid #252A3A;
+  padding: 4px;
+  font-size: 12px;
+}
+
     </style>
 </head>
 <body>
@@ -1665,10 +1694,22 @@ li._viewBtn = viewBtn;
             initializeTooltips();
             loadMetadataLog();   // 👈 add this line
         });
+
         function switchMetaTab(tab) {
-          document.querySelectorAll('.meta-tab').forEach(t => t.style.display = 'none');
-          document.getElementById('tab-' + tab).style.display = 'block';
-        }
+  // hide all tabs
+  document.querySelectorAll('.meta-tab').forEach(t => {
+    t.style.display = 'none';
+  });
+
+  // show selected tab (safe check)
+  const el = document.getElementById('tab-' + tab);
+  if (el) {
+    el.style.display = 'block';
+  } else {
+    console.warn('Tab not found:', 'tab-' + tab);
+  }
+}
+
 
     function openMetaForTable(treeItem) {
   const pathArr = getNodePath(treeItem);
@@ -1817,17 +1858,6 @@ async function saveMetadata() {
   closeMeta();
 }
 
-  try {
-    await saveToGitHub(metadataLog);
-    alert("Metadata saved to GitHub logbook ✅");
-    updateMetadataButtons();
-  } catch (e) {
-    console.error(e);
-    alert("Failed to save to GitHub ❌. Check token & permissions.");
-  }
-
-  closeMeta();
-}
 
 async function saveToGitHub(data) {
   const apiUrl = `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${FILE_PATH}`;
@@ -1874,8 +1904,8 @@ async function saveToGitHub(data) {
 
 function viewMetadataForTable(treeItem) {
   const path = getNodePath(treeItem).join(".");
-
   const meta = metadataLog[path];
+
   if (!meta) {
     alert("No metadata found for this table.");
     return;
@@ -1885,14 +1915,35 @@ function viewMetadataForTable(treeItem) {
 
   body.innerHTML = `
     <p><b>Table:</b> ${path}</p><br>
-    <p><b>Owner:</b> ${meta.owner || "-"}</p>
-    <p><b>Refresh:</b> ${meta.refresh || "-"}</p>
-    <p><b>Description:</b></p>
-    <div style="background:#161A23;padding:12px;border-radius:8px;border:1px solid #252A3A;">
-      ${meta.description || "-"}
-    </div>
+
+    <h3>🖥 Machine</h3>
+    <p><b>Name:</b> ${meta.machine?.name || "-"}</p>
+    <p><b>Location:</b> ${meta.machine?.location || "-"}</p>
+    <p><b>Line:</b> ${meta.machine?.line || "-"}</p>
+    <p><b>Owner:</b> ${meta.machine?.owner || "-"}</p>
+
+    <h3>📊 Table</h3>
+    <p><b>Purpose:</b> ${meta.table?.purpose || "-"}</p>
+    <p><b>Owner:</b> ${meta.table?.owner || "-"}</p>
+    <p><b>Update Type:</b> ${meta.table?.updateType || "-"}</p>
+    <p><b>Sensitivity:</b> ${meta.table?.sensitivity || "-"}</p>
+
+    <h3>🧩 Fields</h3>
+    <table style="width:100%;border-collapse:collapse;">
+      <tr>
+        <th>Field</th><th>Type</th><th>Meaning</th>
+      </tr>
+      ${meta.fields.map(f => `
+        <tr>
+          <td>${f.field}</td>
+          <td>${f.datatype}</td>
+          <td>${f.meaning}</td>
+        </tr>
+      `).join("")}
+    </table>
+
     <br>
-    <p><b>Last Updated:</b> ${meta.updated_at || "-"}</p>
+    <p><b>Last Updated:</b> ${meta.updated_at}</p>
   `;
 
   document.getElementById("viewMetaOverlay").classList.add("show");
