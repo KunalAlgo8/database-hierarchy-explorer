@@ -1250,6 +1250,20 @@
             };
             div.appendChild(metaBtn);
 
+            const viewBtn = document.createElement('span');
+            viewBtn.className = 'copy-btn';
+            viewBtn.innerHTML = '👁️';
+            viewBtn.title = 'View metadata';
+            viewBtn.style.display = 'none';   // hidden by default
+            viewBtn.onclick = (e) => {
+                e.stopPropagation();
+                viewMetadataForTable(li);
+            };
+            div.appendChild(viewBtn);
+
+// store ref so we can toggle later
+li._viewBtn = viewBtn;
+
 
             const toggleIcon = document.createElement('span');
             toggleIcon.className = 'toggle-icon';
@@ -1616,17 +1630,35 @@
             }
         });
 
-
         async function loadMetadataLog() {
-         const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${FILE_PATH}`;
-         try {
+          const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${FILE_PATH}`;
+          try {
             const res = await fetch(url);
             metadataLog = await res.json();
-         } catch (e) {
+
+            // 👇 ADD THIS LINE
+            setTimeout(updateMetadataButtons, 300);
+
+          } catch (e) {
             console.warn("No metadata log found yet");
             metadataLog = {};
           }
         }
+        function updateMetadataButtons() {
+  document.querySelectorAll('.tree-item').forEach(item => {
+    if (!item._viewBtn) return;
+
+    const path = getNodePath(item).join(".");
+
+    if (metadataLog[path]) {
+      item._viewBtn.style.display = "flex";   // show 👁️
+    } else {
+      item._viewBtn.style.display = "none";
+    }
+  });
+}
+
+
 
         document.addEventListener('DOMContentLoaded', () => {
             initializeTree();
@@ -1662,6 +1694,7 @@ async function saveMetadata() {
   try {
     await saveToGitHub(metadataLog);
     alert("Metadata saved to GitHub logbook ✅");
+    updateMetadataButtons();
   } catch (e) {
     console.error(e);
     alert("Failed to save to GitHub ❌. Check token & permissions.");
@@ -1713,6 +1746,35 @@ async function saveToGitHub(data) {
   }
 }
 
+function viewMetadataForTable(treeItem) {
+  const path = getNodePath(treeItem).join(".");
+
+  const meta = metadataLog[path];
+  if (!meta) {
+    alert("No metadata found for this table.");
+    return;
+  }
+
+  const body = document.getElementById("viewMetaBody");
+
+  body.innerHTML = `
+    <p><b>Table:</b> ${path}</p><br>
+    <p><b>Owner:</b> ${meta.owner || "-"}</p>
+    <p><b>Refresh:</b> ${meta.refresh || "-"}</p>
+    <p><b>Description:</b></p>
+    <div style="background:#161A23;padding:12px;border-radius:8px;border:1px solid #252A3A;">
+      ${meta.description || "-"}
+    </div>
+    <br>
+    <p><b>Last Updated:</b> ${meta.updated_at || "-"}</p>
+  `;
+
+  document.getElementById("viewMetaOverlay").classList.add("show");
+}
+
+function closeViewMeta() {
+  document.getElementById("viewMetaOverlay").classList.remove("show");
+}
 
 
 
@@ -1738,5 +1800,18 @@ async function saveToGitHub(data) {
   </div>
 </div>
 
+<!-- View Metadata Modal -->
+<div class="modal-overlay" id="viewMetaOverlay">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">👁️ View Metadata</div>
+      <button class="modal-close" onclick="closeViewMeta()">×</button>
+    </div>
+    <div class="modal-body" id="viewMetaBody">
+    </div>
+  </div>
+</div>
+
+    
 </body>
 </html>
