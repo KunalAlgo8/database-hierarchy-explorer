@@ -317,6 +317,12 @@
             color: white;
         }
 
+        .copy-btn.viewing {
+            background: #4DA3FF;
+            border-color: #4DA3FF;
+            color: white;
+        }
+
         .toggle-icon {
             width: 20px;
             height: 20px;
@@ -411,6 +417,120 @@
                 opacity: 1;
                 transform: translateY(0);
             }
+        }
+
+        /* Inline Metadata Display */
+        .metadata-inline {
+            display: none;
+            margin: 12px 0 12px 56px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(77, 163, 255, 0.08) 0%, rgba(0, 229, 195, 0.08) 100%);
+            border: 1px solid rgba(77, 163, 255, 0.3);
+            border-left: 4px solid #4DA3FF;
+            border-radius: 8px;
+            animation: slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .metadata-inline.show {
+            display: block;
+        }
+
+        .metadata-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(77, 163, 255, 0.3);
+        }
+
+        .metadata-header-icon {
+            font-size: 24px;
+        }
+
+        .metadata-header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4DA3FF;
+            letter-spacing: 0.5px;
+        }
+
+        .metadata-section {
+            margin-bottom: 24px;
+        }
+
+        .metadata-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .metadata-section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #00E5C3;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 229, 195, 0.2);
+        }
+
+        .metadata-section-icon {
+            font-size: 18px;
+        }
+
+        .metadata-row {
+            display: grid;
+            grid-template-columns: 150px 1fr;
+            gap: 12px;
+            padding: 8px 0;
+            font-size: 13px;
+        }
+
+        .metadata-label {
+            color: #9AA4BF;
+            font-weight: 500;
+        }
+
+        .metadata-value {
+            color: #E6EAF2;
+            word-break: break-word;
+        }
+
+        .metadata-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+
+        .metadata-table th {
+            background: rgba(22, 26, 35, 0.6);
+            color: #4DA3FF;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            border: 1px solid #252A3A;
+        }
+
+        .metadata-table td {
+            background: rgba(15, 17, 23, 0.4);
+            color: #E6EAF2;
+            padding: 10px;
+            border: 1px solid #252A3A;
+        }
+
+        .metadata-table tr:hover td {
+            background: rgba(77, 163, 255, 0.1);
+        }
+
+        .metadata-footer {
+            margin-top: 20px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(77, 163, 255, 0.2);
+            text-align: right;
+            font-size: 12px;
+            color: #9AA4BF;
         }
 
         /* Tooltip Styles */
@@ -913,6 +1033,15 @@
             .modal-body {
                 padding: 20px;
             }
+
+            .metadata-inline {
+                margin-left: 20px;
+            }
+
+            .metadata-row {
+                grid-template-columns: 1fr;
+                gap: 4px;
+            }
         }
     </style>
 </head>
@@ -1091,21 +1220,6 @@
                 </div>
 
                 <button class="btn btn-primary" onclick="saveMetadata()" style="margin-top: 20px;">💾 Save Metadata</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- View Metadata Modal -->
-    <div class="modal-overlay" id="viewMetaOverlay" onclick="closeViewMetaOverlay(event)">
-        <div class="modal" onclick="event.stopPropagation()">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>👁️</span>
-                    <span>View Metadata</span>
-                </div>
-                <button class="modal-close" onclick="closeViewMeta()">×</button>
-            </div>
-            <div class="modal-body" id="viewMetaBody">
             </div>
         </div>
     </div>
@@ -1399,7 +1513,6 @@
                     const listItem = document.createElement('div');
                     listItem.className = 'list-item';
 
-                    // Copy button - only for tables
                     if (item.type === 'table') {
                         const copyBtn = document.createElement('button');
                         copyBtn.className = 'list-item-copy-btn';
@@ -1412,7 +1525,6 @@
                         listItem.appendChild(copyBtn);
                     }
 
-                    // Info section
                     const info = document.createElement('div');
                     info.className = 'list-item-info';
                     info.onclick = () => {
@@ -1431,7 +1543,6 @@
                     info.appendChild(name);
                     info.appendChild(pathDiv);
 
-                    // Badge
                     const badge = document.createElement('div');
                     badge.className = `list-item-badge badge-${item.type}`;
                     badge.textContent = getBadgeForType(item.type);
@@ -1489,9 +1600,7 @@
             const div = document.createElement('div');
             div.className = 'tree-content';
             
-            // Only add action buttons for tables in the tree
             if (!isRoot && node.type === 'table') {
-                // Copy button
                 const copyBtn = document.createElement('span');
                 copyBtn.className = 'copy-btn';
                 copyBtn.innerHTML = '📋';
@@ -1502,7 +1611,6 @@
                 };
                 div.appendChild(copyBtn);
 
-                // Edit metadata button
                 const metaBtn = document.createElement('span');
                 metaBtn.className = 'copy-btn';
                 metaBtn.innerHTML = '📝';
@@ -1513,7 +1621,6 @@
                 };
                 div.appendChild(metaBtn);
 
-                // View metadata button (hidden by default, shown only when metadata exists)
                 const viewBtn = document.createElement('span');
                 viewBtn.className = 'copy-btn';
                 viewBtn.innerHTML = '👁️';
@@ -1521,11 +1628,10 @@
                 viewBtn.style.display = 'none';
                 viewBtn.onclick = (e) => {
                     e.stopPropagation();
-                    viewMetadataForTable(li);
+                    toggleMetadataView(li, viewBtn);
                 };
                 div.appendChild(viewBtn);
 
-                // Store reference for later updates
                 li._viewBtn = viewBtn;
             }
 
@@ -1561,6 +1667,14 @@
 
             li.appendChild(div);
 
+            if (!isRoot && node.type === 'table') {
+                const metadataDiv = document.createElement('div');
+                metadataDiv.className = 'metadata-inline';
+                metadataDiv.id = 'metadata-' + getNodePath(li).join('-');
+                li.appendChild(metadataDiv);
+                li._metadataDiv = metadataDiv;
+            }
+
             if (node.children && node.children.length > 0) {
                 const ul = document.createElement('ul');
                 ul.className = 'children';
@@ -1573,6 +1687,163 @@
             }
 
             return li;
+        }
+
+        function toggleMetadataView(treeItem, viewBtn) {
+            const metadataDiv = treeItem._metadataDiv;
+            if (!metadataDiv) return;
+
+            const path = getNodePath(treeItem).join(".");
+            const meta = metadataLog[path];
+
+            if (!meta) {
+                alert("No metadata found for this table.");
+                return;
+            }
+
+            if (metadataDiv.classList.contains('show')) {
+                metadataDiv.classList.remove('show');
+                viewBtn.classList.remove('viewing');
+            } else {
+                // Close all other open metadata views
+                document.querySelectorAll('.metadata-inline.show').forEach(div => {
+                    div.classList.remove('show');
+                });
+                document.querySelectorAll('.copy-btn.viewing').forEach(btn => {
+                    btn.classList.remove('viewing');
+                });
+
+                // Render and show this metadata
+                renderInlineMetadata(metadataDiv, meta, path);
+                metadataDiv.classList.add('show');
+                viewBtn.classList.add('viewing');
+            }
+        }
+
+        function renderInlineMetadata(container, meta, path) {
+            const fieldsTable = meta.fields && meta.fields.length > 0 
+                ? `<table class="metadata-table">
+                    <thead>
+                        <tr>
+                            <th>Field</th>
+                            <th>Type</th>
+                            <th>Meaning</th>
+                            <th>Nullable</th>
+                            <th>PK</th>
+                            <th>PII</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${meta.fields.map(f => `
+                            <tr>
+                                <td>${f.field || "-"}</td>
+                                <td>${f.datatype || "-"}</td>
+                                <td>${f.meaning || "-"}</td>
+                                <td>${f.nullable || "-"}</td>
+                                <td>${f.pk || "-"}</td>
+                                <td>${f.pii || "-"}</td>
+                            </tr>
+                        `).join("")}
+                    </tbody>
+                </table>`
+                : '<p style="color: #9AA4BF; font-style: italic;">No fields defined</p>';
+
+            container.innerHTML = `
+                <div class="metadata-header">
+                    <span class="metadata-header-icon">📋</span>
+                    <span class="metadata-header-title">Metadata Details</span>
+                </div>
+
+                <div class="metadata-section">
+                    <div class="metadata-section-title">
+                        <span class="metadata-section-icon">🖥</span>
+                        <span>Machine Information</span>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Name:</div>
+                        <div class="metadata-value">${meta.machine?.name || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Location:</div>
+                        <div class="metadata-value">${meta.machine?.location || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Line:</div>
+                        <div class="metadata-value">${meta.machine?.line || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Owner:</div>
+                        <div class="metadata-value">${meta.machine?.owner || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Source Type:</div>
+                        <div class="metadata-value">${meta.machine?.sourceType || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Refresh:</div>
+                        <div class="metadata-value">${meta.machine?.refresh || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Criticality:</div>
+                        <div class="metadata-value">${meta.machine?.criticality || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Notes:</div>
+                        <div class="metadata-value">${meta.machine?.notes || "-"}</div>
+                    </div>
+                </div>
+
+                <div class="metadata-section">
+                    <div class="metadata-section-title">
+                        <span class="metadata-section-icon">📊</span>
+                        <span>Table Information</span>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Purpose:</div>
+                        <div class="metadata-value">${meta.table?.purpose || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Owner:</div>
+                        <div class="metadata-value">${meta.table?.owner || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Update Type:</div>
+                        <div class="metadata-value">${meta.table?.updateType || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Refresh:</div>
+                        <div class="metadata-value">${meta.table?.refresh || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Retention:</div>
+                        <div class="metadata-value">${meta.table?.retention || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Sensitivity:</div>
+                        <div class="metadata-value">${meta.table?.sensitivity || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Updated By:</div>
+                        <div class="metadata-value">${meta.table?.updatedBy || "-"}</div>
+                    </div>
+                    <div class="metadata-row">
+                        <div class="metadata-label">Description:</div>
+                        <div class="metadata-value">${meta.table?.description || "-"}</div>
+                    </div>
+                </div>
+
+                <div class="metadata-section">
+                    <div class="metadata-section-title">
+                        <span class="metadata-section-icon">🧩</span>
+                        <span>Field Information</span>
+                    </div>
+                    ${fieldsTable}
+                </div>
+
+                <div class="metadata-footer">
+                    <strong>Last Updated:</strong> ${meta.updated_at || "N/A"}
+                </div>
+            `;
         }
 
         function initializeTree() {
@@ -1618,6 +1889,7 @@
             const allChildren = document.querySelectorAll('.children');
             const allToggles = document.querySelectorAll('.toggle-icon');
             const allContents = document.querySelectorAll('.tree-content');
+            const allMetadata = document.querySelectorAll('.metadata-inline');
             
             allChildren.forEach(child => {
                 child.classList.remove('show');
@@ -1630,6 +1902,14 @@
             allContents.forEach(content => {
                 content.classList.remove('active');
                 content.classList.remove('search-match');
+            });
+
+            allMetadata.forEach(meta => {
+                meta.classList.remove('show');
+            });
+
+            document.querySelectorAll('.copy-btn.viewing').forEach(btn => {
+                btn.classList.remove('viewing');
             });
 
             document.getElementById('searchResults').classList.remove('show');
@@ -2081,77 +2361,6 @@
             }
         }
 
-        function viewMetadataForTable(treeItem) {
-            const path = getNodePath(treeItem).join(".");
-            const meta = metadataLog[path];
-
-            if (!meta) {
-                alert("No metadata found for this table.");
-                return;
-            }
-
-            const body = document.getElementById("viewMetaBody");
-
-            body.innerHTML = `
-                <p style="font-size: 16px; margin-bottom: 20px;"><b>Table:</b> ${path}</p>
-
-                <h3 style="color: #4DA3FF; margin-top: 20px; margin-bottom: 10px;">🖥 Machine</h3>
-                <p><b>Name:</b> ${meta.machine?.name || "-"}</p>
-                <p><b>Location:</b> ${meta.machine?.location || "-"}</p>
-                <p><b>Line:</b> ${meta.machine?.line || "-"}</p>
-                <p><b>Owner:</b> ${meta.machine?.owner || "-"}</p>
-                <p><b>Source Type:</b> ${meta.machine?.sourceType || "-"}</p>
-                <p><b>Refresh:</b> ${meta.machine?.refresh || "-"}</p>
-                <p><b>Criticality:</b> ${meta.machine?.criticality || "-"}</p>
-                <p><b>Notes:</b> ${meta.machine?.notes || "-"}</p>
-
-                <h3 style="color: #4DA3FF; margin-top: 20px; margin-bottom: 10px;">📊 Table</h3>
-                <p><b>Purpose:</b> ${meta.table?.purpose || "-"}</p>
-                <p><b>Owner:</b> ${meta.table?.owner || "-"}</p>
-                <p><b>Update Type:</b> ${meta.table?.updateType || "-"}</p>
-                <p><b>Refresh:</b> ${meta.table?.refresh || "-"}</p>
-                <p><b>Retention:</b> ${meta.table?.retention || "-"}</p>
-                <p><b>Sensitivity:</b> ${meta.table?.sensitivity || "-"}</p>
-                <p><b>Updated By:</b> ${meta.table?.updatedBy || "-"}</p>
-                <p><b>Description:</b> ${meta.table?.description || "-"}</p>
-
-                <h3 style="color: #4DA3FF; margin-top: 20px; margin-bottom: 10px;">🧩 Fields</h3>
-                <table style="width:100%;border-collapse:collapse; margin-top: 10px;">
-                    <tr style="background: #161A23;">
-                        <th style="border: 1px solid #252A3A; padding: 8px; text-align: left;">Field</th>
-                        <th style="border: 1px solid #252A3A; padding: 8px; text-align: left;">Type</th>
-                        <th style="border: 1px solid #252A3A; padding: 8px; text-align: left;">Meaning</th>
-                        <th style="border: 1px solid #252A3A; padding: 8px; text-align: left;">Nullable</th>
-                        <th style="border: 1px solid #252A3A; padding: 8px; text-align: left;">PK</th>
-                    </tr>
-                    ${meta.fields.map(f => `
-                        <tr>
-                            <td style="border: 1px solid #252A3A; padding: 8px;">${f.field || "-"}</td>
-                            <td style="border: 1px solid #252A3A; padding: 8px;">${f.datatype || "-"}</td>
-                            <td style="border: 1px solid #252A3A; padding: 8px;">${f.meaning || "-"}</td>
-                            <td style="border: 1px solid #252A3A; padding: 8px;">${f.nullable || "-"}</td>
-                            <td style="border: 1px solid #252A3A; padding: 8px;">${f.pk || "-"}</td>
-                        </tr>
-                    `).join("")}
-                </table>
-
-                <p style="margin-top: 20px; color: #9AA4BF;"><b>Last Updated:</b> ${meta.updated_at}</p>
-            `;
-
-            document.getElementById("viewMetaOverlay").classList.add("show");
-        }
-
-        function closeViewMeta() {
-            document.getElementById("viewMetaOverlay").classList.remove("show");
-        }
-
-        function closeViewMetaOverlay(event) {
-            if (event && event.target !== document.getElementById('viewMetaOverlay')) {
-                return;
-            }
-            closeViewMeta();
-        }
-
         async function loadMetadataLog() {
             const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${FILE_PATH}`;
             try {
@@ -2165,7 +2374,6 @@
         }
 
         function updateMetadataButtons() {
-            // Only update view buttons in the tree hierarchy
             document.querySelectorAll('.tree-item').forEach(item => {
                 if (!item._viewBtn) return;
 
@@ -2183,7 +2391,13 @@
             if (e.key === 'Escape') {
                 closeModal();
                 closeMeta();
-                closeViewMeta();
+                // Close all inline metadata views
+                document.querySelectorAll('.metadata-inline.show').forEach(div => {
+                    div.classList.remove('show');
+                });
+                document.querySelectorAll('.copy-btn.viewing').forEach(btn => {
+                    btn.classList.remove('viewing');
+                });
             }
             if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
                 e.preventDefault();
