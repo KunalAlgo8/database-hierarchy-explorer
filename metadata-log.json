@@ -33,8 +33,18 @@
         "pii": "No",
         "values": "123",
         "example": ""
+      },
+      {
+        "field": "abc",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "pk": "No",
+        "pii": "No",
+        "values": "",
+        "example": ""
       }
     ],
-    "updated_at": "12/01/2026, 15:06:37"
+    "updated_at": "12/01/2026, 15:07:15"
   }
 }
