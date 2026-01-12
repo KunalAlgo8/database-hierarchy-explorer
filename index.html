@@ -1671,13 +1671,14 @@ li._viewBtn = viewBtn;
 
   document.getElementById("metaTableName").innerText = path;
 
-  const meta = metadataLog[path];
-  document.getElementById("metaOwner").value = meta?.owner || "";
-  document.getElementById("metaRefresh").value = meta?.refresh || "";
-  document.getElementById("metaDesc").value = meta?.description || "";
+  // 🔥 ALWAYS OPEN CLEAN FORM
+  document.getElementById("metaOwner").value = "";
+  document.getElementById("metaRefresh").value = "";
+  document.getElementById("metaDesc").value = "";
 
   document.getElementById("metaOverlay").classList.add("show");
 }
+
 
 function closeMeta() {
   document.getElementById("metaOverlay").classList.remove("show");
