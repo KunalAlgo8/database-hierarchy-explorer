@@ -878,6 +878,115 @@
         </div>
     </div>
 
+    <div class="modal-overlay" id="metaOverlay">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">📝 Table Metadata</div>
+      <button class="modal-close" onclick="closeMeta()">×</button>
+    </div>
+
+      <div class="modal-body">
+
+  <!-- TAB HEADERS -->
+  <div style="display:flex;gap:12px;margin-bottom:20px;">
+    <button class="btn btn-secondary" onclick="switchMetaTab('machine')">Machine</button>
+    <button class="btn btn-secondary" onclick="switchMetaTab('table')">Table</button>
+    <button class="btn btn-secondary" onclick="switchMetaTab('fields')">Fields</button>
+  </div>
+
+  <!-- ================= MACHINE TAB ================= -->
+  <div id="tab-machine" class="meta-tab">
+
+    <input id="m_machineName" placeholder="Machine Name" class="search-box"><br><br>
+    <input id="m_location" placeholder="Plant / Location" class="search-box"><br><br>
+    <input id="m_line" placeholder="Line / Section" class="search-box"><br><br>
+    <input id="m_owner" placeholder="Owner / Team" class="search-box"><br><br>
+
+    <input id="m_sourceType" placeholder="Source Type (PLC / MES / ERP)" class="search-box"><br><br>
+    <input id="m_refresh" placeholder="Refresh Frequency" class="search-box"><br><br>
+
+    <select id="m_criticality" class="search-box">
+      <option value="">Criticality</option>
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select><br><br>
+
+    <textarea id="m_notes" placeholder="Description / Notes" class="search-box"></textarea>
+  </div>
+
+  <!-- ================= TABLE TAB ================= -->
+  <div id="tab-table" class="meta-tab" style="display:none;">
+
+    <input id="t_db" class="search-box" readonly><br><br>
+    <input id="t_schema" class="search-box" readonly><br><br>
+    <input id="t_table" class="search-box" readonly><br><br>
+
+    <input id="t_purpose" placeholder="Business Purpose" class="search-box"><br><br>
+    <input id="t_owner" placeholder="Table Owner" class="search-box"><br><br>
+
+    <select id="t_updateType" class="search-box">
+      <option value="">Update Type</option>
+      <option>Full</option>
+      <option>Incremental</option>
+      <option>CDC</option>
+    </select><br><br>
+
+    <input id="t_refresh" placeholder="Refresh Frequency" class="search-box"><br><br>
+    <input id="t_retention" placeholder="Retention Period" class="search-box"><br><br>
+
+    <select id="t_sensitivity" class="search-box">
+      <option value="">Data Sensitivity</option>
+      <option>Public</option>
+      <option>Internal</option>
+      <option>Confidential</option>
+    </select><br><br>
+
+    <input id="t_updatedBy" placeholder="Last Updated By" class="search-box"><br><br>
+    <textarea id="t_desc" placeholder="Description" class="search-box"></textarea>
+  </div>
+
+  <!-- ================= FIELD TAB ================= -->
+  <div id="tab-fields" class="meta-tab" style="display:none;">
+
+    <table style="width:100%;border-collapse:collapse;">
+      <thead>
+        <tr>
+          <th>Field</th>
+          <th>Type</th>
+          <th>Meaning</th>
+          <th>Nullable</th>
+          <th>PK</th>
+          <th>PII</th>
+          <th>Values</th>
+          <th>Example</th>
+        </tr>
+      </thead>
+      <tbody id="fieldMetaBody">
+      </tbody>
+    </table>
+
+  </div>
+
+  <br>
+  <button class="btn btn-primary" onclick="saveMetadata()">Save Metadata</button>
+</div>
+
+
+<!-- View Metadata Modal -->
+<div class="modal-overlay" id="viewMetaOverlay">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">👁️ View Metadata</div>
+      <button class="modal-close" onclick="closeViewMeta()">×</button>
+    </div>
+    <div class="modal-body" id="viewMetaBody">
+    </div>
+  </div>
+</div>
+
+
+    
     <script>
         let metadataLog = {};
         let currentMetaTable = "";
@@ -1754,7 +1863,13 @@ li._viewBtn = viewBtn;
   }
 
   switchMetaTab('machine');
-  document.getElementById("metaOverlay").classList.add("show");
+  const overlay = document.getElementById("metaOverlay");
+if (!overlay) {
+  alert("Metadata panel not found in HTML");
+  return;
+}
+overlay.classList.add("show");
+
 }
 
         function renderFieldRows(fields) {
@@ -1957,113 +2072,6 @@ function closeViewMeta() {
 
     </script>
 <!-- Metadata Modal -->
-<div class="modal-overlay" id="metaOverlay">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-title">📝 Table Metadata</div>
-      <button class="modal-close" onclick="closeMeta()">×</button>
-    </div>
-
-      <div class="modal-body">
-
-  <!-- TAB HEADERS -->
-  <div style="display:flex;gap:12px;margin-bottom:20px;">
-    <button class="btn btn-secondary" onclick="switchMetaTab('machine')">Machine</button>
-    <button class="btn btn-secondary" onclick="switchMetaTab('table')">Table</button>
-    <button class="btn btn-secondary" onclick="switchMetaTab('fields')">Fields</button>
-  </div>
-
-  <!-- ================= MACHINE TAB ================= -->
-  <div id="tab-machine" class="meta-tab">
-
-    <input id="m_machineName" placeholder="Machine Name" class="search-box"><br><br>
-    <input id="m_location" placeholder="Plant / Location" class="search-box"><br><br>
-    <input id="m_line" placeholder="Line / Section" class="search-box"><br><br>
-    <input id="m_owner" placeholder="Owner / Team" class="search-box"><br><br>
-
-    <input id="m_sourceType" placeholder="Source Type (PLC / MES / ERP)" class="search-box"><br><br>
-    <input id="m_refresh" placeholder="Refresh Frequency" class="search-box"><br><br>
-
-    <select id="m_criticality" class="search-box">
-      <option value="">Criticality</option>
-      <option>Low</option>
-      <option>Medium</option>
-      <option>High</option>
-    </select><br><br>
-
-    <textarea id="m_notes" placeholder="Description / Notes" class="search-box"></textarea>
-  </div>
-
-  <!-- ================= TABLE TAB ================= -->
-  <div id="tab-table" class="meta-tab" style="display:none;">
-
-    <input id="t_db" class="search-box" readonly><br><br>
-    <input id="t_schema" class="search-box" readonly><br><br>
-    <input id="t_table" class="search-box" readonly><br><br>
-
-    <input id="t_purpose" placeholder="Business Purpose" class="search-box"><br><br>
-    <input id="t_owner" placeholder="Table Owner" class="search-box"><br><br>
-
-    <select id="t_updateType" class="search-box">
-      <option value="">Update Type</option>
-      <option>Full</option>
-      <option>Incremental</option>
-      <option>CDC</option>
-    </select><br><br>
-
-    <input id="t_refresh" placeholder="Refresh Frequency" class="search-box"><br><br>
-    <input id="t_retention" placeholder="Retention Period" class="search-box"><br><br>
-
-    <select id="t_sensitivity" class="search-box">
-      <option value="">Data Sensitivity</option>
-      <option>Public</option>
-      <option>Internal</option>
-      <option>Confidential</option>
-    </select><br><br>
-
-    <input id="t_updatedBy" placeholder="Last Updated By" class="search-box"><br><br>
-    <textarea id="t_desc" placeholder="Description" class="search-box"></textarea>
-  </div>
-
-  <!-- ================= FIELD TAB ================= -->
-  <div id="tab-fields" class="meta-tab" style="display:none;">
-
-    <table style="width:100%;border-collapse:collapse;">
-      <thead>
-        <tr>
-          <th>Field</th>
-          <th>Type</th>
-          <th>Meaning</th>
-          <th>Nullable</th>
-          <th>PK</th>
-          <th>PII</th>
-          <th>Values</th>
-          <th>Example</th>
-        </tr>
-      </thead>
-      <tbody id="fieldMetaBody">
-      </tbody>
-    </table>
-
-  </div>
-
-  <br>
-  <button class="btn btn-primary" onclick="saveMetadata()">Save Metadata</button>
-</div>
-
-
-<!-- View Metadata Modal -->
-<div class="modal-overlay" id="viewMetaOverlay">
-  <div class="modal" onclick="event.stopPropagation()">
-    <div class="modal-header">
-      <div class="modal-title">👁️ View Metadata</div>
-      <button class="modal-close" onclick="closeViewMeta()">×</button>
-    </div>
-    <div class="modal-body" id="viewMetaBody">
-    </div>
-  </div>
-</div>
-
     
 </body>
 </html>
