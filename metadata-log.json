@@ -23,58 +23,7 @@
       "updatedBy": "",
       "description": ""
     },
-    "fields": [
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "pk": "No",
-        "pii": "No",
-        "values": "",
-        "example": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "pk": "No",
-        "pii": "No",
-        "values": "",
-        "example": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "pk": "No",
-        "pii": "No",
-        "values": "",
-        "example": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "pk": "No",
-        "pii": "No",
-        "values": "",
-        "example": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "pk": "No",
-        "pii": "No",
-        "values": "",
-        "example": ""
-      }
-    ],
-    "updated_at": "12/01/2026, 15:04:11"
+    "fields": [],
+    "updated_at": "12/01/2026, 15:05:06"
   }
 }
