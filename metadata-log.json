@@ -23,7 +23,18 @@
       "updatedBy": "",
       "description": ""
     },
-    "fields": [],
-    "updated_at": "12/01/2026, 15:05:06"
+    "fields": [
+      {
+        "field": "",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "pk": "No",
+        "pii": "No",
+        "values": "",
+        "example": ""
+      }
+    ],
+    "updated_at": "12/01/2026, 15:05:38"
   }
 }
