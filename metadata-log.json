@@ -21,36 +21,8 @@
         "meaning": "plant",
         "nullable": "No",
         "value": "123"
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "value": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "value": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "value": ""
-      },
-      {
-        "field": "",
-        "datatype": "",
-        "meaning": "",
-        "nullable": "No",
-        "value": ""
       }
     ],
-    "updated_at": "12/01/2026, 15:25:03"
+    "updated_at": "12/01/2026, 15:28:17"
   }
 }
