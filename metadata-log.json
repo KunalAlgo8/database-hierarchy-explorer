@@ -1,1 +1,56 @@
-{}
+{
+  "mes.smartgateplus.dbo.setup_change_data": {
+    "machine": {
+      "name": "",
+      "location": "",
+      "owner": "",
+      "sourceType": "",
+      "refresh": ""
+    },
+    "table": {
+      "database": "mes",
+      "schema": "dbo",
+      "table": "setup_change_data",
+      "description": "",
+      "users": ""
+    },
+    "fields": [
+      {
+        "field": "abc",
+        "datatype": "",
+        "meaning": "plant",
+        "nullable": "No",
+        "value": "123"
+      },
+      {
+        "field": "",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "value": ""
+      },
+      {
+        "field": "",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "value": ""
+      },
+      {
+        "field": "",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "value": ""
+      },
+      {
+        "field": "",
+        "datatype": "",
+        "meaning": "",
+        "nullable": "No",
+        "value": ""
+      }
+    ],
+    "updated_at": "12/01/2026, 15:25:03"
+  }
+}
