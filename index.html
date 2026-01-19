@@ -1085,19 +1085,19 @@
 
         <div class="stats">
             <div class="stat-item" onclick="showCategoryList('main-database')">
-                <div class="stat-value" id="dbCount">2</div>
+                <div class="stat-value" id="dbCount">0</div>
                 <div class="stat-label">Main Databases</div>
             </div>
             <div class="stat-item" onclick="showCategoryList('sub-database')">
-                <div class="stat-value" id="subDbCount">6</div>
+                <div class="stat-value" id="subDbCount">0</div>
                 <div class="stat-label">Sub Databases</div>
             </div>
             <div class="stat-item" onclick="showCategoryList('schema')">
-                <div class="stat-value" id="schemaCount">13</div>
+                <div class="stat-value" id="schemaCount">0</div>
                 <div class="stat-label">Schemas</div>
             </div>
             <div class="stat-item" onclick="showCategoryList('table')">
-                <div class="stat-value" id="tableCount">68</div>
+                <div class="stat-value" id="tableCount">0</div>
                 <div class="stat-label">Tables</div>
             </div>
         </div>
@@ -1206,27 +1206,45 @@
         const REPO_NAME = "new-database-hierarchy";
         const FILE_PATH = "metadata-log.json";
         const BRANCH = "main";
-        const DB_FILE = "database_log.json";
-        
-        let databaseStructure = null;
+
         let searchResults = [];
         let tooltip = document.getElementById('pathTooltip');
         let tooltipContent = document.getElementById('pathTooltipContent');
         let copyNotification = document.getElementById('copyNotification');
         let allItems = [];
 
-        async function loadDatabaseStructure() {
-            const url = `https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/${BRANCH}/${DB_FILE}`;
+        let databaseStructure = null;
+
+        async function loadDatabaseFromJSON() {
             try {
-                const res = await fetch(url);
-                databaseStructure = await res.json();
+                const response = await fetch("database_log.json");
+                if (!response.ok) {
+                    throw new Error("Failed to load database_log.json");
+                }
+
+                databaseStructure = await response.json();
+
+                // Build UI after data loads
                 initializeTree();
-            } catch (e) {
-                alert("Failed to load database structure ❌");
-                console.error(e);
+                initializeTooltips();
+                calculateCountsFromData(databaseStructure);
+
+            } catch (error) {
+                console.error("Error loading database JSON:", error);
+
+                document.getElementById("treeRoot").innerHTML =
+                    "<li class='no-results'>Failed to load database data</li>";
             }
         }
 
+        function calculateCountsFromData(root) {
+            const counts = {
+                "main-database": 0,
+                "sub-database": 0,
+                "schema": 0,
+                "table": 0
+            };
+            
         function getIconForType(type) {
             const icons = {
                 'main-database': '💾',
