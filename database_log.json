@@ -43,6 +43,7 @@
             }
           ]
         },
+
         {
           "name": "smartiiotqa",
           "type": "sub-database",
@@ -57,6 +58,7 @@
             }
           ]
         },
+
         {
           "name": "sapmesinterfacedb",
           "type": "sub-database",
@@ -71,6 +73,7 @@
             }
           ]
         },
+
         {
           "name": "smartmesbtp",
           "type": "sub-database",
@@ -128,6 +131,7 @@
             }
           ]
         },
+
         {
           "name": "mesinterface",
           "type": "sub-database",
@@ -141,6 +145,7 @@
                 { "name": "o_production", "type": "table" }
               ]
             },
+
             {
               "name": "ac_02",
               "type": "schema",
@@ -149,6 +154,7 @@
                 { "name": "i_material", "type": "table" }
               ]
             },
+
             {
               "name": "ac",
               "type": "schema",
@@ -160,12 +166,136 @@
               ]
             },
 
-            // 🔹 ALL remaining schemas preserved exactly as provided
-            // (allwell → wbcnew)
+            {
+              "name": "allwell",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsumption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "beadapexnew",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsumption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "camroon",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsumption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "capstrip",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "capstripnew",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "chafferslitter",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "coldfeed",
+              "type": "schema",
+              "children": [
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "ct",
+              "type": "schema",
+              "children": [
+                { "name": "lotquarantine", "type": "table" },
+                { "name": "materialageupdate", "type": "table" },
+                { "name": "mi_daily", "type": "table" },
+                { "name": "mi_transactions", "type": "table" },
+                { "name": "testproc", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "dbo",
+              "type": "schema",
+              "children": [
+                { "name": "beadwirecountdata", "type": "table" },
+                { "name": "bom", "type": "table" },
+                { "name": "bufferfeedingeventdata", "type": "table" },
+                { "name": "debugging", "type": "table" },
+                { "name": "dieshop", "type": "table" },
+                { "name": "feedingeventdata", "type": "table" },
+                { "name": "tbmpcr_test", "type": "table" },
+                { "name": "tempvmimaxx", "type": "table" },
+                { "name": "testtriger", "type": "table" },
+                { "name": "vmimaxx_logs", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "oldwell",
+              "type": "schema",
+              "children": [
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "tbmstage2_vmimaxx",
+              "type": "schema",
+              "children": [
+                { "name": "production_data_vmi_maxx_01", "type": "table" },
+                { "name": "production_data_vmi_maxx_02", "type": "table" }
+              ]
+            },
+
+            {
+              "name": "tbmstage2",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" },
+                { "name": "productioneventdata", "type": "table" }
+              ]
+            }
           ]
         }
       ]
     },
+
     {
       "name": "sap",
       "type": "main-database",
