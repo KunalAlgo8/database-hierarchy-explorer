@@ -1213,7 +1213,7 @@
         let copyNotification = document.getElementById('copyNotification');
         let allItems = [];
 
-let databaseStructure = null;
+        let databaseStructure = null;
 
         async function loadDatabaseFromJSON() {
             try {
@@ -1221,22 +1221,21 @@ let databaseStructure = null;
                 if (!response.ok) {
                     throw new Error("Failed to load database_log.json");
                 }
-
+        
                 databaseStructure = await response.json();
-
-                // Build UI after data loads
+        
                 initializeTree();
                 initializeTooltips();
                 calculateCountsFromData(databaseStructure);
-
+        
             } catch (error) {
                 console.error("Error loading database JSON:", error);
-
+        
                 document.getElementById("treeRoot").innerHTML =
                     "<li class='no-results'>Failed to load database data</li>";
             }
         }
-        
+
         function calculateCountsFromData(root) {
             const counts = {
                 "main-database": 0,
@@ -1244,6 +1243,27 @@ let databaseStructure = null;
                 "schema": 0,
                 "table": 0
             };
+        
+            function traverse(node) {
+                if (!node) return;
+        
+                if (node.type && counts.hasOwnProperty(node.type)) {
+                    counts[node.type]++;
+                }
+        
+                if (node.children && Array.isArray(node.children)) {
+                    node.children.forEach(child => traverse(child));
+                }
+            }
+        
+            traverse(root);
+        
+            document.getElementById("dbCount").textContent = counts["main-database"];
+            document.getElementById("subDbCount").textContent = counts["sub-database"];
+            document.getElementById("schemaCount").textContent = counts["schema"];
+            document.getElementById("tableCount").textContent = counts["table"];
+        }
+
             
         function getIconForType(type) {
             const icons = {
@@ -2185,7 +2205,7 @@ let databaseStructure = null;
         document.addEventListener('DOMContentLoaded', () => {
             initializeTooltips();
             loadMetadataLog();
-            loadDatabaseStructure();
+            loadDatabaseFromJSON();
         });
 
     </script>
