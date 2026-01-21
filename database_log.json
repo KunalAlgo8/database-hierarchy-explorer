@@ -6,43 +6,43 @@
       "name": "mes",
       "type": "main-database",
       "children": [
-        {
-          "name": "smartgateplus",
-          "type": "sub-database",
-          "children": [
-            {
-                                    name: "dbo",
-                                    type: "schema",
-                                    children: [
-                                        { name: "setup_change_data", type: "table" },
-                                        { name: "utility_consumption", type: "table" }
-                                    ]
-                                },
-                                {
-                                    name: "dta",
-                                    type: "schema",
-                                    children: [
-                                        { name: "downtime_department", type: "table" },
-                                        { name: "downtime_with_reason", type: "table" },
-                                        { name: "dta_production_downtime", type: "table" }
-                                    ]
-                                },
-                                {
-                                    name: "master",
-                                    type: "schema",
-                                    children: [
-                                        { name: "recipe_production", type: "table" }
-                                    ]
-                                },
-                                {
-                                    name: "cm",
-                                    type: "schema",
-                                    children: [
-                                        { name: "generated_tickets", type: "table" }
-                                    ]
-                                }
-                            ]
-                        },
+                  {
+            "name": "smartgateplus",
+            "type": "sub-database",
+            "children": [
+              {
+                "name": "dbo",
+                "type": "schema",
+                "children": [
+                  { "name": "setup_change_data", "type": "table" },
+                  { "name": "utility_consumption", "type": "table" }
+                ]
+              },
+              {
+                "name": "dta",
+                "type": "schema",
+                "children": [
+                  { "name": "downtime_department", "type": "table" },
+                  { "name": "downtime_with_reason", "type": "table" },
+                  { "name": "dta_production_downtime", "type": "table" }
+                ]
+              },
+              {
+                "name": "master",
+                "type": "schema",
+                "children": [
+                  { "name": "recipe_production", "type": "table" }
+                ]
+              },
+              {
+                "name": "cm",
+                "type": "schema",
+                "children": [
+                  { "name": "generated_tickets", "type": "table" }
+                ]
+              }
+            ]
+          }
         {
           "name": "smartiiotqa",
           "type": "sub-database",
