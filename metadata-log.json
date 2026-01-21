@@ -21,8 +21,15 @@
         "meaning": "plant",
         "nullable": "No",
         "value": "123"
+      },
+      {
+        "field": "kunal",
+        "datatype": "kunal",
+        "meaning": "kunal",
+        "nullable": "No",
+        "value": ""
       }
     ],
-    "updated_at": "12/01/2026, 15:28:17"
+    "updated_at": "21/01/2026, 15:35:49"
   }
 }
