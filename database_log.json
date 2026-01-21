@@ -11,39 +11,38 @@
           "type": "sub-database",
           "children": [
             {
-              "name": "dbo",
-              "type": "schema",
-              "children": [
-                { "name": "setup_change_data", "type": "table" },
-                { "name": "utility_consumption", "type": "table" }
-              ]
-            },
-            {
-              "name": "dta",
-              "type": "schema",
-              "children": [
-                { "name": "downtime_department", "type": "table" },
-                { "name": "downtime_with_reason", "type": "table" },
-                { "name": "dta_production_downtime", "type": "table" }
-              ]
-            },
-            {
-              "name": "master",
-              "type": "schema",
-              "children": [
-                { "name": "recipe_production", "type": "table" }
-              ]
-            },
-            {
-              "name": "cm",
-              "type": "schema",
-              "children": [
-                { "name": "generated_tickets", "type": "table" }
-              ]
-            }
-          ]
-        },
-
+                                    name: "dbo",
+                                    type: "schema",
+                                    children: [
+                                        { name: "setup_change_data", type: "table" },
+                                        { name: "utility_consumption", type: "table" }
+                                    ]
+                                },
+                                {
+                                    name: "dta",
+                                    type: "schema",
+                                    children: [
+                                        { name: "downtime_department", type: "table" },
+                                        { name: "downtime_with_reason", type: "table" },
+                                        { name: "dta_production_downtime", type: "table" }
+                                    ]
+                                },
+                                {
+                                    name: "master",
+                                    type: "schema",
+                                    children: [
+                                        { name: "recipe_production", type: "table" }
+                                    ]
+                                },
+                                {
+                                    name: "cm",
+                                    type: "schema",
+                                    children: [
+                                        { name: "generated_tickets", type: "table" }
+                                    ]
+                                }
+                            ]
+                        },
         {
           "name": "smartiiotqa",
           "type": "sub-database",
@@ -289,6 +288,69 @@
                 { "name": "i_productionconsuption", "type": "table" },
                 { "name": "o_production", "type": "table" },
                 { "name": "productioneventdata", "type": "table" }
+              ]
+            },
+            {
+              "name": "trc",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "trcnew",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "triplex",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "vipobeadwinding",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "vmibeadapex",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "wbc",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
+              ]
+            },
+            {
+              "name": "wbcnew",
+              "type": "schema",
+              "children": [
+                { "name": "i_material", "type": "table" },
+                { "name": "i_productionconsuption", "type": "table" },
+                { "name": "o_production", "type": "table" }
               ]
             }
           ]
