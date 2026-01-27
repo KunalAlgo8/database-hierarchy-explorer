@@ -608,23 +608,30 @@
             }
         }
 
+        /* ===== SMALL STICKY STATS (TOP RIGHT) ===== */
+/* ===== FIXED TOP-RIGHT STATS BAR ===== */
         .stats {
-            padding: 32px 48px;
-            background: #0F1117;
-            border-top: 1px solid #252A3A;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            display: flex;
+            gap: 12px;
+            z-index: 9999;
         }
 
+
         .stat-item {
-            text-align: center;
-            padding: 24px;
+            width: 140px;          /* 🔥 SAME WIDTH FOR ALL */
+            height: 70px;          /* 🔥 SAME HEIGHT FOR ALL */
             background: #161A23;
             border-radius: 12px;
             border: 1px solid #252A3A;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .stat-item:hover {
@@ -634,21 +641,21 @@
         }
 
         .stat-value {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: 700;
+            line-height: 1;
+            margin-bottom: 6px;
             background: linear-gradient(135deg, #4DA3FF 0%, #00E5C3 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 8px;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-size: 10px;
             color: #9AA4BF;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 500;
+            letter-spacing: 0.8px;
+            white-space: nowrap;   /* 🔥 PREVENT UNEQUAL HEIGHT */
         }
 
         .highlight {
@@ -1057,6 +1064,26 @@
                         <p>Enterprise MES & SAP Database Structure Visualization</p>
                     </div>
                 </div>
+
+                <div class="stats">
+                    <div class="stat-item" onclick="showCategoryList('main-database')">
+                        <div class="stat-value" id="dbCount">0</div>
+                        <div class="stat-label">Main Databases</div>
+                    </div>
+                    <div class="stat-item" onclick="showCategoryList('sub-database')">
+                        <div class="stat-value" id="subDbCount">0</div>
+                        <div class="stat-label">Sub Databases</div>
+                    </div>
+                    <div class="stat-item" onclick="showCategoryList('schema')">
+                        <div class="stat-value" id="schemaCount">0</div>
+                        <div class="stat-label">Schemas</div>
+                    </div>
+                    <div class="stat-item" onclick="showCategoryList('table')">
+                        <div class="stat-value" id="tableCount">0</div>
+                        <div class="stat-label">Tables</div>
+                    </div>
+                </div>
+
             </div>
         </div>
 
@@ -1083,24 +1110,6 @@
             </ul>
         </div>
 
-        <div class="stats">
-            <div class="stat-item" onclick="showCategoryList('main-database')">
-                <div class="stat-value" id="dbCount">0</div>
-                <div class="stat-label">Main Databases</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('sub-database')">
-                <div class="stat-value" id="subDbCount">0</div>
-                <div class="stat-label">Sub Databases</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('schema')">
-                <div class="stat-value" id="schemaCount">0</div>
-                <div class="stat-label">Schemas</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('table')">
-                <div class="stat-value" id="tableCount">0</div>
-                <div class="stat-label">Tables</div>
-            </div>
-        </div>
     </div>
 
     <!-- Path Tooltip -->
