@@ -1086,23 +1086,52 @@
             color: #9AA4BF;
             font-size: 12px;
         }
+        /* ===== STORAGE SHOULD SCROLL (NOT STICKY) ===== */
+        .storage-wrapper {
+            padding: 24px 48px;
+            background: #0F1117;
+            border-bottom: 1px solid #252A3A;
+        }
+
 
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-        <div class="header-left-column">
+                <div class="header-left-column">
 
-            <!-- TITLE ROW -->
-            <div class="header-left">
-                <div class="header-icon">🗄️</div>
-                <div class="header-text">
-                    <h1>Database Hierarchy Explorer</h1>
-                    <p>Enterprise MES & SAP Database Structure Visualization</p>
+                <!-- TITLE ROW -->
+                <div class="header-left">
+                    <div class="header-icon">🗄️</div>
+                    <div class="header-text">
+                        <h1>Database Hierarchy Explorer</h1>
+                        <p>Enterprise MES & SAP Database Structure Visualization</p>
+                    </div>
                 </div>
-            </div>
 
+
+        </div>
+        <div class="stats">
+            <div class="stat-item" onclick="showCategoryList('main-database')">
+                <div class="stat-value" id="dbCount">0</div>
+                <div class="stat-label">Main Databases</div>
+            </div>
+            <div class="stat-item" onclick="showCategoryList('sub-database')">
+                <div class="stat-value" id="subDbCount">0</div>
+                <div class="stat-label">Sub Databases</div>
+            </div>
+            <div class="stat-item" onclick="showCategoryList('schema')">
+                <div class="stat-value" id="schemaCount">0</div>
+                <div class="stat-label">Schemas</div>
+            </div>
+            <div class="stat-item" onclick="showCategoryList('table')">
+                <div class="stat-value" id="tableCount">0</div>
+                <div class="stat-label">Tables</div>
+            </div>
+        </div>
+
+        </div>
             <!-- PHYSICAL STORAGE MAPPING (BELOW TITLE) -->
             <div class="storage-mapping">
                 <div class="storage-title">
@@ -1126,27 +1155,6 @@
                 </div>
             </div>
 
-        </div>
-        <div class="stats">
-            <div class="stat-item" onclick="showCategoryList('main-database')">
-                <div class="stat-value" id="dbCount">0</div>
-                <div class="stat-label">Main Databases</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('sub-database')">
-                <div class="stat-value" id="subDbCount">0</div>
-                <div class="stat-label">Sub Databases</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('schema')">
-                <div class="stat-value" id="schemaCount">0</div>
-                <div class="stat-label">Schemas</div>
-            </div>
-            <div class="stat-item" onclick="showCategoryList('table')">
-                <div class="stat-value" id="tableCount">0</div>
-                <div class="stat-label">Tables</div>
-            </div>
-        </div>
-
-        </div>
 
         <div class="controls">
             <button class="btn btn-primary" onclick="expandAll()">
