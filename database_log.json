@@ -1125,7 +1125,16 @@
                 {
                     "name": "transitional",
                     "type": "sub-database",
-                    "children": []
+                    "children": [
+                        {
+                            "name": "v1",
+                            "type": "schema",
+                            "children": [
+                                {
+                                    "name": "BOM_details_kunal",
+                                    "type": "table"
+                                }
+                            ]
                 }
             ]
         }
