@@ -1327,7 +1327,7 @@
 
         async function loadDatabaseFromJSON() {
             try {
-                const response = await fetch("database_log.json");
+                const response = await fetch("./databasejson/database_log.json");
                 if (!response.ok) {
                     throw new Error("Failed to load database_log.json");
                 }
